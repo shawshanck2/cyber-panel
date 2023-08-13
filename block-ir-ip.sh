@@ -14,4 +14,5 @@ sudo iptables -A OUTPUT -m geoip -p tcp --destination-port 80 --dst-cc IR -j DRO
 sudo iptables -A OUTPUT -m geoip -p tcp --destination-port 443 --dst-cc IR -j DROP
 iptables-save
 clear
-echo -e "Blocked Port 80 and 443 Iran \n"
+echo -e "Blocked Port 80 and 443 Iran \n" 
+

@@ -344,7 +344,7 @@ ENDOFFILE
     (crontab -l ; echo "* * * * * wget -q -O /dev/null '$cronUrl' > /dev/null 2>&1") | crontab -
     
 }
- 
+
 installationInfo(){
     echo -e "\n **** Cyber Paenl **** \n"
     echo -e "Cyber Panel Link : $httpProtcol://${ipv4}:$panelPort/login"
