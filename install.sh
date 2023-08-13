@@ -149,9 +149,8 @@ EOF
 }
 
 copyPanelRepo(){
-    repoLink=$(sudo curl -Ls "$githubRepoLink" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
-    sudo wget -O /var/www/html/update.zip $repoLink
-    wait
+    link=$(sudo curl -Ls "$githubRepoLink" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+    sudo wget -O /var/www/html/update.zip $link
     sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel/ &
     wait
     echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
