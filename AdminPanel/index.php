@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * By MahmoudAp
+ * Github: https://github.com/mahmoud-ap
+ */
 
 define('PATH', __DIR__);
 

@@ -1,6 +1,9 @@
 <?php
 
-use Morilog\Jalali\Jalalian;
+/**
+ * By MahmoudAp
+ * Github: https://github.com/mahmoud-ap
+ */
 
 
 function getSessionUser()
