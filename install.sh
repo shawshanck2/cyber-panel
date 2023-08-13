@@ -1,7 +1,8 @@
 #!/bin/bash
 
 userInputs(){
-    echo -e "\nPlease input Panel admin user."
+
+    echo -e "****** Welecome to installation of the Cyber Panel ******"
     printf "Default username is \e[33m${username}\e[0m, let it blank to use this username: "
     read usernameTmp
 
@@ -370,7 +371,7 @@ installationInfo(){
 }
 
 
-runSystemSerices(){
+runSystemServices(){
     sudo systemctl restart apache2
     sudo systemctl restart sshd
 }
@@ -398,5 +399,5 @@ installNethogs
 installSshCall
 configDatabase
 configCronMaster
-runSystemSerices
+runSystemServices
 installationInfo

@@ -287,9 +287,8 @@ class Backup extends \App\Models\BaseModel
 
             return $totalInsert;
         } catch (\Exception $err) {
-            echo $err->getMessage();
             db()::rollback();
-            throw "Error";
+            throw $err->getMessage();
         }
     }
 

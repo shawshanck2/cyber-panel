@@ -112,9 +112,7 @@ class Users extends \App\Models\BaseModel
             });
         } catch (\Exception $err) {
             db()::rollback();
-            echo $err->getMessage();
-
-            throw "Error";
+            throw $err->getMessage();
         }
     }
 
