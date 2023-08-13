@@ -43,7 +43,7 @@ userInputs(){
 }
 
 getAppVersion(){
-    version=$(sudo curl -Ls "${githubRepoLink}" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    version=$(sudo curl -Ls "$githubRepoLink" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     echo $version;
 }
 
@@ -149,7 +149,7 @@ EOF
 }
 
 copyPanelRepo(){
-    echo $repoLink
+    repoLink=$(sudo curl -Ls "$githubRepoLink" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
     sudo wget -O /var/www/html/update.zip $repoLink
     wait
     sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel/ &
@@ -360,7 +360,7 @@ runSystemSerices(){
     sudo systemctl restart sshd
 }
 
-githubRepoLink="https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest"
+githubRepoLink=https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest
 ipv4=$(getServerIpV4)
 appVersion=$(getAppVersion)
 username="admin"
@@ -371,8 +371,7 @@ panelPort=8081
 httpProtcol="http"
 panelPath=$(getPanelPath)
 panelPortPath="/var/www/html/panelport"
-repoLink=$(sudo curl -Ls "${githubRepoLink}" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
-nethogsLink="https://raw.githubusercontent.com/mahmoud-ap/nethogs-json/master/install.sh"
+nethogsLink=https://raw.githubusercontent.com/mahmoud-ap/nethogs-json/master/install.sh
 
 checkRoot
 userInputs
