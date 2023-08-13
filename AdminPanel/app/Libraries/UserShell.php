@@ -48,15 +48,17 @@ class UserShell
                         $ipText = $userArr[8];
                         $ipParts = explode(":", $ipText);
                         if (!empty($ipParts[1])) {
-                            $userIp = $ipParts[1];
-                            $pattern = '/(->|http|https|ssh|' . $sshPort . ')/i';
-                            $userIp = preg_replace($pattern, "", $userIp);
-                            $userData = [
-                                "ip"        => $userIp,
-                                "pid"       => $pid
-                            ];
+                            $userIp     = $ipParts[1];
+                            $pattern = '/((http|https|' . $sshPort . ')->(\d+\.\d+\.\d+\.\d+))/';
+                            if (preg_match($pattern, $userIp, $matches)) {
+                                $userIp     = preg_replace("/(http|https|$sshPort)->/", "", $matches[0]);
+                                $userData = [
+                                    "ip"        => $userIp,
+                                    "pid"       => $pid
+                                ];
 
-                            $onlineUsers[$username][] = $userData;
+                                $onlineUsers[$username][] = $userData;
+                            }
                         }
                     }
                 }
@@ -309,9 +311,8 @@ class UserShell
 
         $command = "sudo sed -i 's/PORT_SSH=[0-9]*/PORT_SSH=$newPort/' /var/www/html/panel/.env";
         shell_exec($command);
-
     }
-    
+
 
     public static function updateUdpPort($newPort)
     {
