@@ -1,0 +1,7 @@
+# ignore all logs
+*.log
+resources/
+vendor/
+.vscode/
+assets/mix-manifest.json
+assets/mix.js.map
