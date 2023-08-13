@@ -24,7 +24,6 @@ class BaseController
     function __construct($cont)
     {
         $this->cont = $cont;
-        loadHelpers("enqueue");
 
         if (!empty($_COOKIE["panel-theme"])) {
             $this->data["activeTheme"] = $_COOKIE["panel-theme"];

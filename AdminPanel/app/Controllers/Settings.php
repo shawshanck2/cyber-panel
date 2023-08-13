@@ -196,7 +196,7 @@ class Settings extends BaseController
 
                 return $response->withStatus(200)->withJson(["total_insert" => $totalInsert]);
             } catch (\Exception $err) {
-                return $response->withStatus([
+                return $response->withStatus(400)->withJson([
                     "messages" => "خطایی رخ داد لطفا دوباره تلاش کنید"
                 ]);
             }
@@ -208,7 +208,7 @@ class Settings extends BaseController
                 $totalInsert =  $bkModel->importBackupFromXpanel($values);
                 return $response->withStatus(200)->withJson(["total_insert" => $totalInsert]);
             } catch (\Exception $err) {
-                return $response->withStatus([
+                return $response->withStatus(400)->withJson([
                     "messages" => "خطایی رخ داد لطفا دوباره تلاش کنید"
                 ]);
             }

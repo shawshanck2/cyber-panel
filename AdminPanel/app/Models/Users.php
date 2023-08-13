@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -136,7 +137,9 @@ class Users extends \App\Models\BaseModel
             "traffics.total as consumer_traffic"
         ];
 
-        $adminRole = getAdminRole();
+        $adminRole    = getAdminRole();
+        // $onlineUsers = getLocalOnlienUsers();
+        $onlineUsers   = UserShell::onlineUsers();
 
         $query = db($this->table)->select($select)
             ->join('admins', 'admins.username', '=', 'users.admin_uname')
@@ -180,6 +183,8 @@ class Users extends \App\Models\BaseModel
 
             $uStartDate      = $user["start_date"];
             $uEndDate        = $user["end_date"];
+            $username        = $user["username"];
+            $usersOnline     = $onlineUsers && isset($onlineUsers[$username]) ? $onlineUsers[$username] : [];
 
             if ($user["utime"]) {
                 $utime = Jalalian::forge($user["ctime"])->format('Y/m/d');
@@ -209,23 +214,26 @@ class Users extends \App\Models\BaseModel
             $num = $num + 1;
             $row = array();
 
-            $row['id']                  = $user["id"];
-            $row['idx']                 = $num;
-            $row['username']            = $user["username"];
-            $row['admin_name']          = $user["admin_name"];
-            $row['password']            = $user["password"];
-            $row['limit_users']         = $user["limit_users"];
-            $row['mobile']              = $user["mobile"];
-            $row['status']              = $user["status"];
-            $row['status_label']        = userStatusLabel($user["status"]);
-            $row['start_date']          = $startDate;
-            $row['end_date']            = $endDate;
-            $row['ctime']               = Jalalian::forge($user["ctime"])->format('Y/m/d');
-            $row['utime']               = $utime;
-            $row['traffic']             = $user["traffic"] ? formatTraffice($user["traffic"]) : "نامحدود";
-            $row['consumer_traffic']    = formatTraffice($user["consumer_traffic"]);
-            $row['diffrence_date']      = $diffrenceDate;
-            $row['remaining_days']      = $remainingDays;
+            $row['id']                      = $user["id"];
+            $row['idx']                     = $num;
+            $row['username']                = $user["username"];
+            $row['admin_name']              = $user["admin_name"];
+            $row['password']                = $user["password"];
+            $row['limit_users']             = $user["limit_users"];
+            $row['mobile']                  = $user["mobile"];
+            $row['status']                  = $user["status"];
+            $row['status_label']            = userStatusLabel($user["status"]);
+            $row['start_date']              = $startDate;
+            $row['end_date']                = $endDate;
+            $row['ctime']                   = Jalalian::forge($user["ctime"])->format('Y/m/d');
+            $row['utime']                   = $utime;
+            $row['traffic']                 = $user["traffic"];
+            $row['consumer_traffic']        = $user["consumer_traffic"];
+            $row['traffic_format']          = $user["traffic"] ? formatTraffice($user["traffic"]) : "نامحدود";
+            $row['consumer_traffic_format'] = formatTraffice($user["consumer_traffic"]);
+            $row['diffrence_date']          = $diffrenceDate;
+            $row['remaining_days']          = $remainingDays;
+            $row['online_users']            = $usersOnline;
 
             $resUsers[] = $row;
         }
@@ -256,7 +264,7 @@ class Users extends \App\Models\BaseModel
             ->get();
         if ($query->count()) {
             $row                            = $query->first();
-    
+
             $remainingDays                  = 0;
             $currentTime                    = time();
             $row->is_expired                = true;
@@ -283,6 +291,7 @@ class Users extends \App\Models\BaseModel
 
             $row->remaining_days    = $remainingDays;
             $row->netmod_qr_url     = generateNetmodQR($row);
+            $row->array_config      = getUserConfig($row->username, $row->password);
 
             return  $row;
         }

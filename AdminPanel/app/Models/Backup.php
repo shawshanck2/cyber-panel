@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -52,6 +53,7 @@ class Backup extends \App\Models\BaseModel
         $adminUsername  = getAdminUsername();
 
 
+        $invalidUsers = ["username", "root"];
         foreach ($usersValues  as $user) {
             if (count($user) == 14) {
                 $username   = !empty($user[1]) ? trim($user[1]) : "";
@@ -67,7 +69,7 @@ class Backup extends \App\Models\BaseModel
                 $days       = !empty($user[12]) ? $user[12] : "";
 
 
-                if (!empty($username) && !empty($password)) {
+                if (!empty($username) && !empty($password) && !in_array($username, $invalidUsers)) {
 
                     $status     = $enable && $enable == "true" ? "active" : "de_active";
 
@@ -81,6 +83,10 @@ class Backup extends \App\Models\BaseModel
                         }
                     }
 
+                    if ($days) {
+                        $days = convertToEnNum($days);
+                    }
+
                     $insetUsers[$username] = [
                         "username"          => $username,
                         "admin_uname"       => $adminUsername,
@@ -91,7 +97,7 @@ class Backup extends \App\Models\BaseModel
                         "start_date"        => $startDate,
                         "end_date"          => $endDate,
                         "status"            => $status,
-                        "expiry_days"       => convertToEnNum($days),
+                        "expiry_days"       => $days ? $days : 0,
                         "traffic"           => $traffic ? $traffic * 1024 : $traffic,
                         "limit_users"       => $multiuser,
                         "ctime"             => time(),
@@ -100,6 +106,8 @@ class Backup extends \App\Models\BaseModel
                 }
             }
         }
+
+    
 
         foreach ($traficValues as $traffic) {
             if (count($traffic) == 4) {
@@ -160,7 +168,7 @@ class Backup extends \App\Models\BaseModel
             return $totalInsert;
         } catch (\Exception $err) {
             db()::rollback();
-            throw "Error";
+            throw $err->getMessage();
         }
     }
 

@@ -6,7 +6,7 @@
 
 if (!defined('PATH')) die();
 
-loadHelpers("main", "user");
+loadHelpers("main");
 
 $app->add(new \App\Middlewares\OptionsMethodCheck);
 

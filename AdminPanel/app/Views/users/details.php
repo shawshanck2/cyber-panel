@@ -19,6 +19,7 @@ $netmodQrUrl        = getArrayValue($userValues, "netmod_qr_url", "");
 $status             = getArrayValue($userValues, "status", "");
 $adminName          = getArrayValue($userValues, "admin_name", "");
 $desc               = getArrayValue($userValues, "desc", "");
+$arrayConfig        = getArrayValue($userValues, "array_config", []);
 
 $remainingText = "";
 if ($remainingDays > 0) {
@@ -72,7 +73,7 @@ $values = [
     ],
     [
         "label" => "آی پی",
-        "value" => servIPAddress(),
+        "value" => getServerIp(),
     ],
     [
         "label" => "ثبت کننده",
@@ -119,11 +120,11 @@ $values = [
                                     </button>
 
 
-                                        <button class="btn-chng-active btn mb-2 btn-<?= $status == "active" ? "warning" : "success" ?> w-100 mb-2 btn-float-icon" data-active="<?= $status == "active" ? 1 : 0 ?>" data-id="<?= $userId ?>">
-                                            <?= inlineIcon($status == "active" ? "pause" : "play") ?>
-                                            <?= $status == "active" ? "غیر فعال کردن" : "فعال کردن" ?>
-                                        </button>
-                     
+                                    <button class="btn-chng-active btn mb-2 btn-<?= $status == "active" ? "warning" : "success" ?> w-100 mb-2 btn-float-icon" data-active="<?= $status == "active" ? 1 : 0 ?>" data-id="<?= $userId ?>">
+                                        <?= inlineIcon($status == "active" ? "pause" : "play") ?>
+                                        <?= $status == "active" ? "غیر فعال کردن" : "فعال کردن" ?>
+                                    </button>
+
 
                                     <?php if ($userRole == "admin" && ($status == "active" || $status == "de_active")) { ?>
                                         <button class="btn-reset-traffic btn btn-danger w-100 mb-2 btn-float-icon " data-id="<?= $userId ?>">
@@ -132,7 +133,7 @@ $values = [
                                         </button>
                                     <?php } ?>
 
-                                    <button class="btn-copy-config btn btn-secondary w-100 mb-2 btn-float-icon">
+                                    <button class="btn-copy-config btn btn-secondary w-100 mb-2 btn-float-icon btn-copy-config" data-config='<?= json_encode($arrayConfig) ?>'>
                                         <?= inlineIcon("copy") ?>
                                         کپی کانفیگ
                                     </button>

@@ -329,7 +329,6 @@ configDatabase(){
     fi
 }
 
-
 configCronMaster(){
 
     crontab -r

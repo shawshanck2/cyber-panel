@@ -81,6 +81,7 @@ class UserShell
             "free" => 0,
             "available" => 0,
         ];
+        
         if (!empty($output)) {
             $parts = preg_split('/\s+/', $output);
 

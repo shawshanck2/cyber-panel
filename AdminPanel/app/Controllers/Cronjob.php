@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -38,26 +39,32 @@ class Cronjob extends BaseController
         $multiuser      = Settings::getSetting("multiuser");
         $onlineUsers    = UserShell::onlineUsers();
 
-        $uModel         = new Users();
+        //save to json file
+        setLocalOnlienUsers($onlineUsers);
 
-        if (!empty($onlineUsers)) {
-            foreach ($onlineUsers as $username => $users) {
+        if ($multiuser) {
 
-                $userInfo =  $uModel->getByUsername($username);
+            $uModel         = new Users();
 
-                if ($userInfo) {;
-                    $expiryDays   = $userInfo->expiry_days;
-                    $limitUsers   = $userInfo->limit_users;
+            if (!empty($onlineUsers)) {
+                foreach ($onlineUsers as $username => $users) {
 
-                    //set expiry date
-                    if (!$userInfo->start_date) {
-                        $startDate  = date("Y/m/d");
-                        $endDate    = date('Y/m/d', strtotime($startDate . " + $expiryDays days"));
-                        $uModel->updateExpirydates($username, $startDate, $endDate);
-                    }
+                    $userInfo =  $uModel->getByUsername($username);
 
-                    if ($multiuser && count($users) > $limitUsers) {
-                        UserShell::disableMultiUser($username);
+                    if ($userInfo) {;
+                        $expiryDays   = $userInfo->expiry_days;
+                        $limitUsers   = $userInfo->limit_users;
+
+                        //set expiry date
+                        if (!$userInfo->start_date) {
+                            $startDate  = date("Y/m/d");
+                            $endDate    = date('Y/m/d', strtotime($startDate . " + $expiryDays days"));
+                            $uModel->updateExpirydates($username, $startDate, $endDate);
+                        }
+
+                        if ($multiuser && count($users) > $limitUsers) {
+                            UserShell::disableMultiUser($username);
+                        }
                     }
                 }
             }
