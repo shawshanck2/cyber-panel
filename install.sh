@@ -43,7 +43,7 @@ userInputs(){
 }
 
 getAppVersion(){
-    version=$(sudo curl -Ls "$githubRepoLink" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    version=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
     echo $version;
 }
 
@@ -149,9 +149,18 @@ EOF
 }
 
 copyPanelRepo(){
-    link=$(sudo curl -Ls "$githubRepoLink" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+
+    folder_path="/var/www/html/panel"
+
+    if [ ! -d "$folder_path" ]; then
+        mkdir -p "$folder_path"
+    else
+        echo "Folder already exists."
+    fi
+
+    link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
     sudo wget -O /var/www/html/update.zip $link
-    sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel/ &
+    sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel &
     wait
     echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
     wait
@@ -359,7 +368,6 @@ runSystemSerices(){
     sudo systemctl restart sshd
 }
 
-githubRepoLink=https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest
 ipv4=$(getServerIpV4)
 appVersion=$(getAppVersion)
 username="admin"
