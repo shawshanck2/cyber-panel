@@ -158,11 +158,17 @@ copyPanelRepo(){
         echo "Folder already exists."
     fi
 
-    link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
-    wait
-    sudo wget -O /var/www/html/update.zip $link
-    wait
-    sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel &
+   link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+
+    if [[ -n "$link" ]]; then
+        sudo wget -O /var/www/html/update.zip $link
+        wait
+        sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel &
+    else
+        echo "Error extracting the ZIP file link."
+        exit 1
+    fi
+
     wait
     echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
     wait
