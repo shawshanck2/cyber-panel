@@ -149,7 +149,9 @@ EOF
 }
 
 copyPanelRepo(){
+    echo $repoLink
     sudo wget -O /var/www/html/update.zip $repoLink
+    wait
     sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel/ &
     wait
     echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
