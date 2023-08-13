@@ -371,7 +371,7 @@ runSystemSerices(){
 }
 
 ipv4=$(getServerIpV4)
-appVersion=$(getAppVersion)
+appVersion=1.0
 username="admin"
 password="123456"
 udpPort=7300
