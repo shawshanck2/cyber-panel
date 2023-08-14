@@ -53,9 +53,9 @@ class UserShell
                         $ipParts = explode(":", $ipText);
                         if (!empty($ipParts[1])) {
                             $userIp     = $ipParts[1];
-                            $pattern = '/((http|https|' . $sshPort . ')->(\d+\.\d+\.\d+\.\d+))/';
+                            $pattern = '/((http|https|ssh|' . $sshPort . ')->(\d+\.\d+\.\d+\.\d+))/';
                             if (preg_match($pattern, $userIp, $matches)) {
-                                $userIp     = preg_replace("/(http|https|$sshPort)->/", "", $matches[0]);
+                                $userIp     = preg_replace("/(http|https|ssh|$sshPort)->/", "", $matches[0]);
                                 $userData = [
                                     "ip"        => $userIp,
                                     "pid"       => $pid
