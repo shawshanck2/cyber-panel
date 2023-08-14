@@ -389,7 +389,7 @@ checkRoot
 userInputs
 updateShhConfig
 installPackages
-configStunnel
+# configStunnel
 copyPanelRepo
 configAppche
 installNethogs
