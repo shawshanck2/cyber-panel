@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -59,12 +60,31 @@ class Users extends BaseController
         enqueueStyleHeader(assets("vendor/datepicker/datepicker.min.css"));
         enqueueStyleHeader(assets("vendor/datatable/datatables.css"));
 
+
+        $uModel      = new \App\Models\Users();
+        $accessUsers = $uModel->adminAccessUsers();
+        $onlineUsers = [];
+
+        if (!empty($accessUsers)) {
+            $onlineUsers = UserShell::onlineUsers();
+            foreach ($onlineUsers  as $username => $users) {
+                if (!in_array($username, $accessUsers)) {
+                    echo 11;
+                    unset($onlineUsers[$username]);
+                }
+            }
+        } else {
+            $onlineUsers = [];
+        }
+
         $viewData = [];
         $viewData["pageTitle"]      = "کاربران آنلاین";
         $viewData["viewContent"]    = "users/online.php";
         $viewData["activeMenu"]     = "online-users";
         $viewData["activePage"]     = "online-users";
-        $viewData["onlineUsers"]    = UserShell::onlineUsers();
+        $viewData["onlineUsers"]    = $onlineUsers;
+
+
 
         $this->render($viewData);
     }

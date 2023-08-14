@@ -404,4 +404,23 @@ class Users extends \App\Models\BaseModel
         $this->where("id", $userId)
             ->update(["status" => $status]);
     }
+
+
+    public function adminAccessUsers()
+    {
+        $users = [];
+        $adminUname = getAdminUsername();
+
+        $query =  db("users")->select("username")->where("admin_uname", $adminUname)->get();
+        if ($query->count()) {
+
+            $rows = $query->toArray();
+
+            foreach ($rows as $row) {
+                $users[] = $row->username;
+            }
+        }
+
+        return $users;
+    }
 }

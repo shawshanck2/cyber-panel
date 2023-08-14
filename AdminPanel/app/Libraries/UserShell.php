@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -32,7 +33,7 @@ class UserShell
         $sshPort = getenv("PORT_SSH");
 
         $output  = shell_exec("sudo lsof -i :$sshPort  -n | grep -v root | grep ESTABLISHED");
-   
+
         $invalidUses = ["sshd"];
         if (!empty($output)) {
             $usersList = preg_split("/\r\n|\n|\r/", $output);
@@ -81,7 +82,7 @@ class UserShell
             "free" => 0,
             "available" => 0,
         ];
-        
+
         if (!empty($output)) {
             $parts = preg_split('/\s+/', $output);
 

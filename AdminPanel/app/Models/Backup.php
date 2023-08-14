@@ -51,8 +51,7 @@ class Backup extends \App\Models\BaseModel
         $insetUsers     = [];
         $insetTraffics  = [];
         $adminUsername  = getAdminUsername();
-
-
+     
         $invalidUsers = ["username", "root"];
         foreach ($usersValues  as $user) {
             if (count($user) == 14) {
@@ -64,17 +63,16 @@ class Backup extends \App\Models\BaseModel
                 $startDate  = !empty($user[6]) ? $user[6] : 0;
                 $endDate    = !empty($user[7]) ? $user[7] : 0;
                 $enable     = !empty($user[8]) ? $user[8] : 1;
-                $traffic    = !empty($user[9]) ? $user[9] : "";
+                $traffic    = !empty($user[9]) ? $user[9] : 0;
                 $info       = !empty($user[11]) ? $user[11] : "";
                 $days       = !empty($user[12]) ? $user[12] : "";
-
 
                 if (!empty($username) && !empty($password) && !in_array($username, $invalidUsers)) {
 
                     $status     = $enable && $enable == "true" ? "active" : "de_active";
 
-                    $endDate     = $endDate && strtotime($endDate) ? strtotime($endDate) : 0;
-                    $startDate   = $startDate && strtotime($startDate) ? strtotime($startDate) : 0;
+                    $endDate     = $endDate && strtotime($endDate) ? strtotime(adjustDateTime($endDate)) : 0;
+                    $startDate   = $startDate && strtotime($startDate) ? strtotime(adjustDateTime($startDate)) : 0;
                     if ($status == "active" && $endDate && !$startDate) {
                         if ($days) {
                             $startDate = strtotime("-$days days", $endDate);
@@ -107,7 +105,7 @@ class Backup extends \App\Models\BaseModel
             }
         }
 
-    
+
 
         foreach ($traficValues as $traffic) {
             if (count($traffic) == 4) {
@@ -127,6 +125,7 @@ class Backup extends \App\Models\BaseModel
                 }
             }
         }
+
 
         try {
 
@@ -192,15 +191,16 @@ class Backup extends \App\Models\BaseModel
                 $endDate        = !empty($user[7]) ? $user[7] : 0;
                 $days           = !empty($user[8]) ? $user[8] : 0;
                 $status         = !empty($user[10]) ? $user[10] : "active";
-                $traffic        = !empty($user[11]) ? $user[11] : "";
+                $traffic        = !empty($user[11]) ? $user[11] : 0;
                 $desc           = !empty($user[13]) ? $user[13] : "";
 
                 if ($username && $password) {
 
                     $status      = $status == "active"  ? "active" : "de_active";
-                    $days        =  $days && $days != "NULL" ? convertToEnNum($days) : 0;
-                    $endDate     = $endDate && strtotime($endDate) ? strtotime($endDate) : 0;
-                    $startDate   = $startDate && strtotime($startDate) ? strtotime($startDate) : 0;
+                    $days        = $days && $days != "NULL" ? convertToEnNum($days) : 0;
+
+                    $endDate     = $endDate && strtotime(adjustDateTime($endDate)) ? strtotime(adjustDateTime($endDate)) : 0;
+                    $startDate   = $startDate && strtotime(adjustDateTime($startDate)) ? strtotime(adjustDateTime($startDate)) : 0;
 
                     if ($status == "active" && $endDate && !$startDate) {
                         if ($days) {

@@ -550,3 +550,21 @@ function setLocalOnlienUsers($onlineUsers)
     $onlinePath = PATH_STORAGE . DS . "online.json";
     @file_put_contents($onlinePath, json_encode($onlineUsers));
 }
+
+
+function adjustDateTime($dateTimeString)
+{
+    // Create a DateTime object from the given date and time string
+    $dateTime = new DateTime($dateTimeString);
+
+    // Get the year from the DateTime object
+    $year = (int)$dateTime->format("Y");
+
+    if ($year > 2025) {
+        // Change the year to 2025
+        $dateTime->setDate(2025, $dateTime->format("m"), $dateTime->format("d"));
+        return $dateTime->format("Y-m-d");
+    } else {
+        return $dateTime->format("Y-m-d");
+    }
+}
