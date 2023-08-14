@@ -159,7 +159,7 @@ copyPanelRepo(){
         rm -rf /var/www/html/panel
     fi
 
-   link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+   link=https://github.com/mahmoud-ap/cyber-panel/raw/master/AdminPanel/1.zip
 
     if [[ -n "$link" ]]; then
         rm -fr /var/www/html/update.zip
@@ -300,7 +300,7 @@ installNethogs(){
 configDatabase(){
     dbName="CyberPanel"
     dbPrefix="cp_"
-    
+    appVersion=$(getAppVersion)
     mysql -e "create database CyberPanel;" &
     wait
     mysql -e "CREATE USER '${username}'@'localhost' IDENTIFIED BY '${password}';" &
