@@ -16,7 +16,7 @@ class Backup extends \App\Models\BaseModel
     public function __construct()
     {
         ini_set('memory_limit', '256M');
-        ini_set('max_execution_time', '60');
+        ini_set('max_execution_time', '0');
     }
 
     public function getUserBackups()
@@ -156,7 +156,7 @@ class Backup extends \App\Models\BaseModel
                             ]);
                         }
 
-                        usleep(1500);
+                        usleep(500);
                         UserShell::createUser($username, $password);
                     }
                 }
@@ -277,7 +277,7 @@ class Backup extends \App\Models\BaseModel
                             ]);
                         }
 
-                        usleep(1500);
+                        usleep(500);
                         UserShell::createUser($username, $password);
                     }
                 }
@@ -322,7 +322,7 @@ class Backup extends \App\Models\BaseModel
                 foreach ($activeUsers as $user) {
                     $username = $user->username;
                     $password = $user->password;
-                    usleep(1500);
+                    usleep(500);
                     UserShell::createUser($username, $password);
                 }
             }

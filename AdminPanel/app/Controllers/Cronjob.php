@@ -73,7 +73,6 @@ class Cronjob extends BaseController
 
     public function expireUsers($request, $response, $args)
     {
-        $this->syncServUsersWithDB();
         $this->expiredUsers();
     }
 

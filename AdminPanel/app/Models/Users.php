@@ -391,7 +391,7 @@ class Users extends \App\Models\BaseModel
         ];
         $query = db($this->table)->select($select)
             ->join('traffics', 'traffics.username', '=', 'users.username')
-            // ->where("users.status", "active")
+            ->where("users.status", "active")
             ->get();
         if ($query->count()) {
             return $query->toArray();

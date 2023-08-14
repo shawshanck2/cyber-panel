@@ -271,7 +271,7 @@ class UserShell
         $addUserCommand = "sudo adduser $username --shell /usr/sbin/nologin &";
         $setPasswordCommand = "sudo passwd $username <<!\n$password\n$password\n!";
         $fullCommand = "$addUserCommand\nwait\n$setPasswordCommand";
-        shell_exec($fullCommand);
+        $addUserOutput = shell_exec($fullCommand);
     }
 
     public static function updateUserPassword($username, $password)
