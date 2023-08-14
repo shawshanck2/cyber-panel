@@ -156,7 +156,7 @@ class Backup extends \App\Models\BaseModel
                             ]);
                         }
 
-                        usleep(400);
+                        usleep(1500);
                         UserShell::createUser($username, $password);
                     }
                 }
@@ -277,7 +277,7 @@ class Backup extends \App\Models\BaseModel
                             ]);
                         }
 
-                        usleep(400);
+                        usleep(1500);
                         UserShell::createUser($username, $password);
                     }
                 }
@@ -318,6 +318,7 @@ class Backup extends \App\Models\BaseModel
                 foreach ($activeUsers as $user) {
                     $username = $user->username;
                     $password = $user->password;
+                    usleep(1500);
                     UserShell::createUser($username, $password);
                 }
             }
