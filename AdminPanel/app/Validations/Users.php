@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -17,10 +18,19 @@ class Users
         $userInfo  = null;
         if ($editId) {
             $userInfo =  $uModel->getInfo($editId);
+
             if (!$userInfo) {
                 $result["status"] = "error";
                 $result["messages"][] = "اطلاعات کاربر یافت نشد";
                 return $result;
+            } else {
+                $adminRole    = getAdminRole();
+                $adminUname   = getAdminUsername();
+                if ($adminRole != "admin" && $adminUname != $userInfo->admin_uname) {
+                    $result["status"] = "error";
+                    $result["messages"][] = "شما مجوز ویرایش این کاربر را ندارید";
+                    return $result;
+                }
             }
         }
 
@@ -142,8 +152,8 @@ class Users
         $validatorRules = [
             'users'          => ['required', 'array'],
             'users.*'        => [function ($attribute, $value,  $fail) use ($uModel) {
-                if($value){
-                    if(!$uModel->checkExist($value)){
+                if ($value) {
+                    if (!$uModel->checkExist($value)) {
                         $fail("کاربر با شناسه $value یافت نشد");
                     }
                 }
