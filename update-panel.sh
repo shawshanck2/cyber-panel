@@ -1,9 +1,23 @@
 
-# githubRepoLink="https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest"
-# repoLink=$(sudo curl -Ls "${githubRepoLink}" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+# Set URLs and file paths
+php_code_url="https://github.com/mahmoud-ap/cyber-panel/raw/master/AdminPanel/1.zip"
 
-# sudo wget -O /var/www/html/update.zip $repoLink
-# sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel/
-# sudo chown -R www-data:www-data /var/www/html/panel
-# chown www-data:www-data /var/www/html/panel/index.php
-# sudo service apache2 restart
+original_env_file="/var/www/html/panel/.env"
+php_code_dir="/var/www/html/panel"
+
+# Backup original .env file contents to a variable
+original_env_content=$(cat "$original_env_file")
+
+# Download PHP code zip file
+curl -L -o /tmp/update.zip "$php_code_url"
+
+# Extract PHP code
+unzip -o /tmp/update.zip -d "$php_code_dir"
+
+# Restore original .env file contents
+echo "$original_env_content" > "$original_env_file"
+
+# Clean up temporary files
+rm /tmp/php_code.zip
+
+echo "PHP code updated and .env content restored."
