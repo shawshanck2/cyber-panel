@@ -163,6 +163,7 @@ copyPanelRepo(){
     wait
 
     link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
+    echo $link
     sudo wget -O /var/www/html/update.zip $link
     wait
     sudo unzip -o /var/www/html/update.zip -d /var/www/html/panel &
