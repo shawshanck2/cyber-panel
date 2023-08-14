@@ -12,7 +12,7 @@ originalEnvContent=$(cat "$originalEnvFile")
 sudo wget -O /var/www/html/update.zip $repoLink
 
 # # Extract PHP code
-unzip -o  /var/www/html/update.zip -d "$panelDir"
+sudo unzip -o /var/www/html/update.zip -d $panelDir
 
 # # Restore original .env file contents
 # echo "$original_env_content" > "$original_env_file"
