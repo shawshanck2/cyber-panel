@@ -156,10 +156,12 @@ copyPanelRepo(){
     if [ ! -d "$folder_path" ]; then
         mkdir -p "$folder_path"
     else
-        echo "Folder already exists."
+         rm -rf /var/www/html/panel
     fi
+
     rm -fr /var/www/html/update.zip
     wait
+
     link=$(sudo curl -Ls "https://api.github.com/repos/mahmoud-ap/cyber-panel/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"([^"]+)".*/\1/')
     sudo wget -O /var/www/html/update.zip $link
     wait
