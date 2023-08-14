@@ -296,24 +296,28 @@ class Backup extends \App\Models\BaseModel
     public function importSelfBackup($sqlContent)
     {
 
-        $values = parseSQLFileForTables($sqlContent, ["traffics", "users"]);
+        $values = parseSQLFileForTables($sqlContent, ["cp_traffics", "cp_users"]);
 
-        $usersValues    = !empty($values["users"])          ? $values["users"] : [];
-        $traficValues   = !empty($values["traffics"])       ? $values["traffics"] : [];
+        $usersValues    = !empty($values["cp_users"])       ? $values["cp_users"] : [];
+        $traficValues   = !empty($values["cp_traffics"])    ? $values["cp_traffics"] : [];
+     
 
         if (!empty($usersValues) && !empty($traficValues)) {
             $backupPath     = PATH_STORAGE . DS . "backup";
+            if(!is_dir($backupPath)){
+                mkdir($backupPath);
+            }
             $backupFilePath = $backupPath . DS . "temp.sql";
             // create temp file
-            @file_put_contents($backupFilePath, $sqlContent);
-
+            file_put_contents($backupFilePath, $sqlContent);
+  
             \App\Libraries\UserShell::restoreMysqlBackup($backupFilePath);
-            @unlink($backupFilePath);
-
+            unlink($backupFilePath);
 
             //create server users 
             $uModel         = new \App\Models\Users();
             $activeUsers   = $uModel->activeUsers();
+            
             if ($activeUsers) {
                 foreach ($activeUsers as $user) {
                     $username = $user->username;
