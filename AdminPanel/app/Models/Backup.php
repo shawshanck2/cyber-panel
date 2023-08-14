@@ -51,7 +51,7 @@ class Backup extends \App\Models\BaseModel
         $insetUsers     = [];
         $insetTraffics  = [];
         $adminUsername  = getAdminUsername();
-     
+
         $invalidUsers = ["username", "root"];
         foreach ($usersValues  as $user) {
             if (count($user) == 14) {
@@ -176,6 +176,7 @@ class Backup extends \App\Models\BaseModel
         $usersValues    = !empty($values["users"])      ? $values["users"] : [];
         $traficValues   = !empty($values["traffic"])    ? $values["traffic"] : [];
 
+
         $insetUsers     = [];
         $insetTraffics  = [];
         $adminUsername  = getAdminUsername();
@@ -199,8 +200,8 @@ class Backup extends \App\Models\BaseModel
                     $status      = $status == "active"  ? "active" : "de_active";
                     $days        = $days && $days != "NULL" ? convertToEnNum($days) : 0;
 
-                    $endDate     = $endDate && strtotime(adjustDateTime($endDate)) ? strtotime(adjustDateTime($endDate)) : 0;
-                    $startDate   = $startDate && strtotime(adjustDateTime($startDate)) ? strtotime(adjustDateTime($startDate)) : 0;
+                    $endDate     = $endDate && strtotime($endDate) ? strtotime(adjustDateTime($endDate)) : 0;
+                    $startDate   = $startDate && strtotime($startDate) ? strtotime(adjustDateTime($startDate)) : 0;
 
                     if ($status == "active" && $endDate && !$startDate) {
                         if ($days) {
@@ -229,6 +230,7 @@ class Backup extends \App\Models\BaseModel
                 }
             }
         }
+
 
         foreach ($traficValues as $traffic) {
             if (count($traffic) == 7) {
@@ -300,24 +302,24 @@ class Backup extends \App\Models\BaseModel
 
         $usersValues    = !empty($values["cp_users"])       ? $values["cp_users"] : [];
         $traficValues   = !empty($values["cp_traffics"])    ? $values["cp_traffics"] : [];
-     
+
 
         if (!empty($usersValues) && !empty($traficValues)) {
             $backupPath     = PATH_STORAGE . DS . "backup";
-            if(!is_dir($backupPath)){
+            if (!is_dir($backupPath)) {
                 mkdir($backupPath);
             }
             $backupFilePath = $backupPath . DS . "temp.sql";
             // create temp file
             file_put_contents($backupFilePath, $sqlContent);
-  
+
             \App\Libraries\UserShell::restoreMysqlBackup($backupFilePath);
             unlink($backupFilePath);
 
             //create server users 
             $uModel         = new \App\Models\Users();
             $activeUsers   = $uModel->activeUsers();
-            
+
             if ($activeUsers) {
                 foreach ($activeUsers as $user) {
                     $username = $user->username;
