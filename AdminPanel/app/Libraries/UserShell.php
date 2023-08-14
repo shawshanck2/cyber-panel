@@ -32,7 +32,7 @@ class UserShell
         $sshPort = getenv("PORT_SSH");
 
         $output  = shell_exec("sudo lsof -i :$sshPort  -n | grep -v root | grep ESTABLISHED");
-
+   
         $invalidUses = ["sshd"];
         if (!empty($output)) {
             $usersList = preg_split("/\r\n|\n|\r/", $output);
