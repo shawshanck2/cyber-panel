@@ -193,8 +193,10 @@ class Cronjob extends BaseController
                     if (time() > $endDate) {
                         $isReset = true;
                     }
-                    if ($totalTraffic && ($cTraffic > $totalTraffic)) {
-                        $isReset = true;
+                    if (!$isReset) {
+                        if ($totalTraffic && ($cTraffic > $totalTraffic)) {
+                            $isReset = true;
+                        }
                     }
 
                     if ($isReset) {
