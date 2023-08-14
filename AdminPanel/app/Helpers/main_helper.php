@@ -435,9 +435,18 @@ function calcDifferenceDate($startDate, $endDate)
 
     $months = $interval->m;
     $days = $interval->d;
+    $years = $interval->y;
 
     $result = '';
 
+    if ($years > 0) {
+        $result .= "$years ";
+        if ($days > 0 || $months > 0) {
+            $result .= "سال و ";
+        } else {
+            $result .= "ساله";
+        }
+    }
     if ($months > 0) {
         $result .= "$months ";
         if ($days > 0) {
@@ -446,7 +455,6 @@ function calcDifferenceDate($startDate, $endDate)
             $result .= "ماهه";
         }
     }
-
     if ($days > 0) {
         $result .= "$days ";
         if ($months > 0) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * By MahmoudAp
  * Github: https://github.com/mahmoud-ap
@@ -18,7 +19,7 @@ class Settings extends \App\Models\BaseModel
 
     public function saveMainSettings($pdata, $uid)
     {
-        $validKeys = ["ssh_port", "udp_port", "multiuser", "fake_url"];
+        $validKeys = ["ssh_port", "udp_port", "multiuser", "fake_url", "connected_text"];
 
         if (is_array($pdata)) {
             foreach ($pdata as $key => $value) {
@@ -31,6 +32,10 @@ class Settings extends \App\Models\BaseModel
                     }
                     if ($key == "udp_port") {
                         UserShell::updateUdpPort($value);
+                    }
+
+                    if ($key == "connected_text") {
+                        UserShell::updateConnectedText($value);
                     }
                 }
             }

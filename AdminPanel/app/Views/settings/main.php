@@ -1,8 +1,9 @@
 <?php
-$sshPort    = getArrayValue($settings, "ssh_port");
-$udpPort    = getArrayValue($settings, "udp_port");
-$multiuser  = getArrayValue($settings, "multiuser", 0);
-$fakeUrl    = getArrayValue($settings, "fake_url");
+$sshPort        = getArrayValue($settings, "ssh_port");
+$udpPort        = getArrayValue($settings, "udp_port");
+$multiuser      = getArrayValue($settings, "multiuser", 0);
+$connectedText  = getArrayValue($settings, "connected_text");
+$fakeUrl        = getArrayValue($settings, "fake_url");
 
 
 ?>
@@ -31,6 +32,10 @@ $fakeUrl    = getArrayValue($settings, "fake_url");
                 <label class="form-check-label  mb-0">غیر فعال</label>
             </div>
         </div>
+    </div>
+    <div class="form-group mb-2">
+        <label class="form-label">متن اتصال</label>
+        <input value="<?= $connectedText ?>"  name="connected_text" class="form-control" placeholder="یک متن جهت نمایش به کاربر در زمان اتصال وارد کنید" />
     </div>
     <div class="form-group mb-3">
         <label class="form-label">آدرس سایت جعلی</label>

@@ -171,7 +171,7 @@ copyPanelRepo(){
         echo "Error extracting the ZIP file link."
         exit 1
     fi
-
+    touch /var/www/html/panel/banner.txt
     wait
     echo 'www-data ALL=(ALL:ALL) NOPASSWD:/usr/sbin/adduser' | sudo EDITOR='tee -a' visudo &
     wait

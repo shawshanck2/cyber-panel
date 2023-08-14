@@ -329,4 +329,19 @@ class UserShell
         $command = "sudo sed -i 's/PORT_UDP=[0-9]*/PORT_UDP=$newPort/' /var/www/html/panel/.env";
         shell_exec($command);
     }
+
+
+    public static function updateConnectedText($text)
+    {
+        $filePath = PATH  . DS . "banner.txt";
+
+        // $escapedContent = escapeshellarg($text); // Escape the content for safe shell execution
+        $command = "echo $text > $filePath";
+        echo shell_exec($command);
+
+
+        $filePath = preg_quote($filePath, '/');
+        $command = "sudo sed -i 's/^\(Banner\s*\).*$/\\1$filePath/' /etc/ssh/sshd_config";
+        shell_exec($command);
+    }
 }

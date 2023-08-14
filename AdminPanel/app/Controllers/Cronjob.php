@@ -41,7 +41,6 @@ class Cronjob extends BaseController
 
         //save to json file
         setLocalOnlienUsers($onlineUsers);
-
         if ($multiuser) {
 
             $uModel         = new Users();
