@@ -9,15 +9,15 @@ php_code_dir="/var/www/html/panel"
 original_env_content=$(cat "$original_env_file")
 
 # Download PHP code zip file
-curl -L -o /tmp/update.zip "$php_code_url"
+curl -L -o /var/www/html/panel/tmp/new-update.zip "$php_code_url"
 
 # Extract PHP code
-unzip -o /tmp/update.zip -d "$php_code_dir"
+unzip -o /var/www/html/panel/tmp/new-update.zip -d "$php_code_dir"
 
 # Restore original .env file contents
 echo "$original_env_content" > "$original_env_file"
 
 # Clean up temporary files
-rm /tmp/php_code.zip
+rm /var/www/html/panel/tmp/php_code.zip
 
 echo "PHP code updated and .env content restored."
