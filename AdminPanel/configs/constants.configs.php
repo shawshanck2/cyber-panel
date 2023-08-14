@@ -4,7 +4,7 @@
  * Github: https://github.com/mahmoud-ap
  */
 
-if (!defined('PATH')) die();
+if (!defined('PATH')) die(); 
 
 defined('DS') || define('DS', DIRECTORY_SEPARATOR);
 
