@@ -175,6 +175,7 @@ class Backup extends \App\Models\BaseModel
     {
         $usersValues    = !empty($values["users"])      ? $values["users"] : [];
         $traficValues   = !empty($values["traffic"])    ? $values["traffic"] : [];
+     
 
 
         $insetUsers     = [];
@@ -234,10 +235,10 @@ class Backup extends \App\Models\BaseModel
 
         foreach ($traficValues as $traffic) {
             if (count($traffic) == 7) {
-                $username   = !empty($traffic[0]) ? $traffic[0] : "";
-                $download   = !empty($traffic[1]) ? $traffic[1] : 0;
-                $upload     = !empty($traffic[2]) ? $traffic[2] : 0;
-                $total      = !empty($traffic[3]) ? $traffic[3] : 0;
+                $username   = !empty($traffic[1]) ? $traffic[1] : "";
+                $download   = !empty($traffic[2]) ? $traffic[2] : 0;
+                $upload     = !empty($traffic[3]) ? $traffic[3] : 0;
+                $total      = !empty($traffic[4]) ? $traffic[4] : 0;
 
                 if ($username) {
                     $insetTraffics[$username] = [
@@ -251,7 +252,7 @@ class Backup extends \App\Models\BaseModel
                 }
             }
         }
-
+  
         try {
             $totalInsert =  db()::transaction(function () use ($insetUsers, $insetTraffics) {
 
