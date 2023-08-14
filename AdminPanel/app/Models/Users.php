@@ -136,6 +136,7 @@ class Users extends \App\Models\BaseModel
         ];
 
         $adminRole    = getAdminRole();
+        $adminUname   = getAdminUsername();
         // $onlineUsers = getLocalOnlienUsers();
         $onlineUsers   = UserShell::onlineUsers();
 
@@ -145,7 +146,7 @@ class Users extends \App\Models\BaseModel
             ->orderBy("id", "DESC");
 
         if ($adminRole !== "admin") {
-            $query->where("admins.role", $adminRole);
+            $query->where("users.admin_uname", $adminUname);
         }
 
         if (!empty($pdata["search"]["value"])) {
