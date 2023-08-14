@@ -3,7 +3,7 @@
 php_code_url="https://github.com/mahmoud-ap/cyber-panel/raw/master/AdminPanel/1.zip"
 
 original_env_file="/var/www/html/panel/.env"
-php_code_dir="/var/www/html/panel"
+php_code_dir="/var/www/html/panel/"
 
 # Backup original .env file contents to a variable
 original_env_content=$(cat "$original_env_file")
