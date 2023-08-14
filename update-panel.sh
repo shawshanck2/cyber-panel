@@ -15,9 +15,6 @@ sudo wget -O /var/www/html/update.zip $repoLink
 sudo unzip -o /var/www/html/update.zip -d $panelDir
 
 # # Restore original .env file contents
-# echo "$original_env_content" > "$original_env_file"
+echo "$originalEnvContent" > "$originalEnvFile"
 
-# # Clean up temporary files
-# rm /var/www/html/panel/tmp/php_code.zip
-
-# echo "PHP code updated and .env content restored."
+echo "PHP code updated and .env content restored."
